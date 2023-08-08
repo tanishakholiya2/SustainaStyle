@@ -22,7 +22,10 @@ def login():
       return redirect(url_for('dashboard',name = user))
    else:
       user = request.args.get('name')
-      return render_template('login.html')
+    
+@app.route('/camera',methods = ['POST'])
+def camera():
+   print('hi')
 
 if __name__ == "__main__":
     app.run(debug=True)
