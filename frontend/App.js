@@ -27,7 +27,6 @@ export default function App() {
   // },[])
 
   return (
-    <View style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
@@ -56,7 +55,6 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </View>
   );
 }
 

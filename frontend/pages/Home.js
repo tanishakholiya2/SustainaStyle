@@ -8,7 +8,7 @@ import {
   export default Home = () => {
     return(
         <>
-        <Text> hi </Text>
+          <Text> hi </Text>
         </>
     )
   }
