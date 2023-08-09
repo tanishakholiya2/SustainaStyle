@@ -23,6 +23,10 @@ def login():
       return redirect(url_for('dashboard',name = user))
    else:
       user = request.args.get('name')
+
+@app.route('/signup',methods = ['POST', 'GET'])
+def signup():
+   print("hi")
     
 @app.route('/camera',methods = ['POST'])
 def camera():
