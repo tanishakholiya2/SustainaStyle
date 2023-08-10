@@ -5,13 +5,7 @@ export default Volunteer = ({navigation}) => {
         <>
         <Text>This is volunteer page</Text>
 
-        <Button
-          title="Go to Home"
-          onPress={() =>
-            navigation.navigate('Home')
-          }
-          />
-         
+        
           <Button
           title="Go to Login"
           onPress={() =>
