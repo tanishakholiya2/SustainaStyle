@@ -1,0 +1,9 @@
+flask
+pymongo
+scipy
+numpy
+keras
+sklearn
+matplotlib
+rembg
+opencv-python

@@ -4,17 +4,17 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 
-client = MongoClient('localhost', 27017)
+client = MongoClient("mongodb+srv://sustainastyle:SustainaStyle115@cluster0.xth1dlj.mongodb.net/?retryWrites=true&w=majority")
+db = client.SustainaStyle
 
-db = client.flask_db
-
-@app.route('/', methods=('GET'), strict_slashes=False)
+@app.route('/', methods=(['GET']), strict_slashes=False)
 def index():
-    return jsonify([])
+    print(client.server_info())
+    return "Hello World!"
 
-@app.route('/', methods=('PUT'), strict_slashes=False)
-def index():
-    return jsonify([])
+# @app.route('/', methods=(['PUT']), strict_slashes=False)
+# def index():
+#     return jsonify([])
 
 @app.route('/login',methods = ['POST', 'GET'])
 def login():
