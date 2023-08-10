@@ -13,6 +13,8 @@ import Leaderboard from './pages/Leaderboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Volunteer from './pages/Volunteer';
+import History from './pages/History';
+import StoreOptions from './pages/StoreOptions';
 import { NativeBaseProvider, Box } from "native-base";
 
 const Stack = createNativeStackNavigator();
@@ -28,19 +30,22 @@ export default function App() {
   // },[])
 
   return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
+      <NavigationContainer >
+        <Stack.Navigator style = {styles.container} initialRouteName="Home">
+          <Stack.Screen style = {styles.container}
             name="Home"
             component={Home}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="FindAlt"
             component={FindAlt}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Login"
             component={Login}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Signup"
@@ -49,10 +54,22 @@ export default function App() {
           <Stack.Screen
             name="Leaderboard"
             component={Leaderboard}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Volunteer"
             component={Volunteer}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="History"
+            component={History}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="StoreOptions"
+            component={StoreOptions}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -62,7 +79,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#EFEADE',
     alignItems: 'center',
     justifyContent: 'center',
   },

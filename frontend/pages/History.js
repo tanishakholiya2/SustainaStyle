@@ -1,19 +1,20 @@
-import { Text, Image, StyleSheet, View, TouchableOpacity} from "react-native";
+import { Text, Image, ScrollView, StyleSheet, View, TouchableOpacity} from "react-native";
 
-export default  FindAlt = ({navigation}) => {
+export default  History = ({navigation}) => {
     return(
         <>
           <View style={styles.container}>
             <Text style={styles.text}>fashion made ethical</Text>
             <View style = {styles.outline}>
               <View style = {styles.headerGroup}>
-                <Text style={styles.header}>FIND</Text>
-                <Text style = {styles.text}>YOUR ALTERNATIVE</Text>
+              <Text style={styles.header}>FAVORITE</Text>
+                <Text style = {styles.text}>STORES</Text>
               </View>
 
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("StoreOptions")}}>
-                  <Text style={styles.buttonText}>upload or take picture of clothing</Text>
+              <View style = {styles.optionsContainer}>
+                <TouchableOpacity style = {styles.item}>
+                    <Text style = {styles.buttonText}>CHNGE</Text>
+                    <Text style = {styles.buttonText}>viewed August 10</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -49,6 +50,25 @@ export default  FindAlt = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+  item: {
+      flexDirection: 'column',
+      flexWrap: 'wrap',
+      padding: 15,
+      justifyContent: "space-evenly",
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 3,
+      shadowOpacity: 0.3,
+      backgroundColor: "#9B6B43",
+      borderRadius: 40,
+      alignItems: "center",
+      borderColor: '#4D4738',
+      borderWidth: 2
+  },
+  optionsContainer: {
+      flexDirection: 'column',
+      paddingTop: 20,
+      alignItems: 'stretch'
+  },
   navigationContainer: {
     justifyContent: 'space-evenly',
     flexDirection: 'row',
@@ -90,15 +110,15 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    paddingTop: 10
   },
   headerGroup: {
     paddingBottom: 20,
     paddingTop: 25
   },
   header: {
-    fontWeight: "250",
-    fontSize: 70,
+    fontWeight: "200",
+    fontSize: 55,
     textAlign: "center", 
     fontFamily: 'Cochin-Bold',
     color: '#4D4738'
@@ -137,8 +157,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#9B6B43",
     borderRadius: 40,
     alignItems: "center",
-    borderColor: '#4D4738',
-    borderWidth: 2
   },
   buttonText: {
     fontFamily: 'Copperplate',

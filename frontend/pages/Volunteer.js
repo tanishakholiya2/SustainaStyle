@@ -1,37 +1,196 @@
-import { Text, Button } from "react-native";
+import { Text, TextInput, Switch,Image, StyleSheet, View, TouchableOpacity} from "react-native";
+import { useState } from "react";
 
 export default Volunteer = ({navigation}) => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return(
         <>
-        <Text>This is volunteer page</Text>
+       <View style={styles.container}>
+            <Text style={styles.text}>fashion made ethical</Text>
+            <View style = {styles.outline}>
+              <View style = {styles.headerGroup}>
+                <Text style={styles.header}>VOLUNTEER</Text>
+                <Text style = {styles.text}>OPPORTUNITIES</Text>
+              </View>
 
-        <Button
-          title="Go to Home"
-          onPress={() =>
-            navigation.navigate('Home')
-          }
-          />
-         
-          <Button
-          title="Go to Login"
-          onPress={() =>
-            navigation.navigate('Login')
-          }
-          />
+              <View style = {styles.inputContainer}>
+                <View style = {styles.inputRow}>
+                  <Text style = {styles.text}>age: </Text>
+                  <TextInput  
+                  placeholder="Enter age"
+                  style={styles.input}
+                  />
+                </View>
 
-          <Button
-          title="Go to Leaderboard"
-          onPress={() =>
-            navigation.navigate('Leaderboard')
-          }
-          />
+                <View style = {styles.inputRow}>
+                  <Text style = {styles.text}>online: </Text>
+                  <Switch  
+                    trackColor={{false: '#767577', true: '#9B6B43'}}
+                    thumbColor={isEnabled ? 'black' : '#EFEADE'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                  />
+                </View>
+              </View>
 
-          <Button
-          title="Go to FindAlt"
-          onPress={() =>
-            navigation.navigate('FindAlt')
-          }
-          />
+              <TouchableOpacity style = {styles.button}>
+                  <Text style = {styles.buttonText}>search</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style = {styles.navigationContainer}>
+            <View style = {styles.navButtonHolder}>
+                <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("FindAlt")}}>
+                  <Image style = {styles.navImage} source = {require('./camera.png')}/>
+                </TouchableOpacity>
+              </View>
+              
+              <View style = {styles.navButtonHolder}>
+              <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("Leaderboard")}}>
+              <Image style = {styles.navImage} source = {require('./leaderboard.png')}/>
+              </TouchableOpacity>
+              </View>
+
+              <View style = {styles.navButtonHolder}>
+              <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("Volunteer")}}>
+              <Image style = {styles.navImage} source = {require('./volunteer.png')}/>
+              </TouchableOpacity>
+              </View>
+
+              <View style = {styles.navButtonHolder}>
+              <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("History")}}>
+              <Image style = {styles.navImage} source = {require('./history.png')}/>
+              </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </>
     )
 }
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    paddingBottom: 20
+  },
+  inputRow: {
+    flexDirection: 'row',
+    flexWrap : 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: 5
+  },
+  input: {
+    backgroundColor: "#EFEADE",
+    borderColor: "#4D4738",
+    borderWidth: 2,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 40,
+    marginTop: 5,
+    width: "50%",
+    paddingBottom: 10,
+  },
+  navigationContainer: {
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: 20
+  },
+  navButtonHolder: {
+    padding: 5
+  },
+  navigationButton: {
+    backgroundColor: '#4D4738',
+    borderColor: '#9B6B43',
+    borderWidth: 2,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    shadowOpacity: 0.3,
+    borderRadius: 22,
+    alignSelf: "flex-start",
+  },
+  navImage: {
+    width: 25,
+    height: 25,
+  },
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#EFEADE",
+    paddingTop: 100,
+    paddingBottom: 50,
+    paddingRight: 30,
+    paddingLeft: 30
+  },
+  outline: {
+    borderWidth: 2,
+    borderColor: "#9B6B43",
+    alignContent: "center",
+    paddingBottom: 50,
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 10
+  },
+  headerGroup: {
+    paddingBottom: 20,
+    paddingTop: 25
+  },
+  header: {
+    fontWeight: "250",
+    fontSize: 45,
+    textAlign: "center", 
+    fontFamily: 'Cochin-Bold',
+    color: '#4D4738'
+  },
+  text: {
+      fontWeight: "200",
+      fontSize: 25,
+      textAlign: "center", 
+      fontFamily: 'Copperplate',
+      color: '#4D4738',
+      paddingBottom: 10
+  },
+  imageContainer: {
+    aspectRatio: 1,
+    paddingTop: 30,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+  },
+  buttonContainer: {
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 30,
+      paddingBottom: 10,
+      gap: 10
+  },
+  button: {
+    padding: 15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    shadowOpacity: 0.3,
+    backgroundColor: "#4D4738",
+    borderRadius: 40,
+    borderColor: "#9B6B43",
+    borderWidth: 2,
+    alignItems: "center",
+  },
+  buttonText: {
+    fontFamily: 'Copperplate',
+    color: 'white',
+    fontWeight: "100"
+  },
+  settings: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+  },
+});

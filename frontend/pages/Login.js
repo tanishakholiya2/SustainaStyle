@@ -13,18 +13,24 @@ export default function Login({navigation}) {
     .then(response => response.json())
     .then(response => console.log(response))
     .catch(error => console.log(error))
+    navigation.navigate("FindAlt")
     }
     return(
         <>
         <View style={styles.container}> 
-        <Text style={styles.text}> Email </Text>
+        <View style = {styles.outline}>
+        <View style = {styles.textContainer}>
+        <View style = {styles.headerGroup}>
+              <Text style={styles.header}> LOGIN </Text>
+            </View>
+        <Text style={styles.text}> email </Text>
         <TextInput  
             placeholder="Enter email"
             value={email.toLowerCase()}
             onChangeText={(text) => setEmail(text.toLowerCase())}
             style={styles.input}
             />
-        <Text style={styles.text}> Password </Text>
+        <Text style={styles.text}> password </Text>
         <TextInput 
             placeholder="Enter password"
             value={password}
@@ -35,10 +41,12 @@ export default function Login({navigation}) {
 
         <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={()=>{signin()}} style={styles.button}>
-            <Text style={styles.buttonText}>Sign In</Text>
+            <Text style={styles.buttonText}>sign in</Text>
         </TouchableOpacity>
         </View>
-
+        </View>
+        
+        </View>
         </View>
         </>
     )
@@ -48,19 +56,48 @@ const styles = StyleSheet.create({
     container: {
       display: "flex",
       flex: 1,
+      backgroundColor: "#EFEADE",
+      paddingTop: 100,
+      paddingBottom: 30,
+      paddingRight: 30,
+      paddingLeft: 30
+    },
+    header: {
+      fontWeight: "500",
+      fontSize: 50,
+      textAlign: "center", 
+      fontFamily: 'Cochin-Bold',
+      color: '#4D4738',
+      paddingBottom: 50
+    },
+    textContainer: {
+      paddingTop: 40,
+      paddingLeft: 5,
+      paddingRight: 5,
+      alignItems: 'center'
+    },
+    outline: {
+      borderWidth: 2,
+      borderColor: "#9B6B43",
+      paddingBottom: 150
     },
     input: {
-      backgroundColor: "white",
+      backgroundColor: "#9B6B43",
       paddingHorizontal: 15,
       paddingVertical: 10,
-      borderRadius: 10,
+      borderRadius: 40,
       marginTop: 5,
       width: "80%",
+      paddingBottom: 10,
     },
     text: {
         fontWeight: "300",
         fontSize: 24,
-        textAlign: "left"
+        textAlign: "left",
+        paddingBottom: 15,
+        color: "#4D4738",
+        paddingTop: 10,
+        fontFamily: 'Copperplate',
     },
     buttonContainer: {
       width: "60%",
@@ -69,10 +106,10 @@ const styles = StyleSheet.create({
       marginTop: 40,
     },
     button: {
-      backgroundColor: "#9B6B43",
+      backgroundColor: "#4D4738",
       width: "100%",
       padding: 15,
-      borderRadius: 10,
+      borderRadius: 40,
       alignItems: "center",
     },
     buttonOutline: {
@@ -83,8 +120,9 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       color: "white",
-      fontWeight: "700",
+      fontWeight: "350",
       fontSize: 16,
+      fontFamily: 'Copperplate',
     },
     buttonOutlineText: {
       color: "#0782F9",

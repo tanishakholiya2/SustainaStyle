@@ -32,5 +32,10 @@ def signup():
 def camera():
    print('hi')
 
+@app.route('/leaderboard', methods = ['GET'])
+def viewLeaders():
+   print('hi')
+   #return an array of all users in the leaderboard
+
 if __name__ == "__main__":
     app.run(debug=True)
