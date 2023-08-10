@@ -13,6 +13,7 @@ import Leaderboard from './pages/Leaderboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Volunteer from './pages/Volunteer';
+import { NativeBaseProvider, Box } from "native-base";
 
 const Stack = createNativeStackNavigator();
 
