@@ -7,8 +7,12 @@ export default function SignUp({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const createUser = () => {
-    fetch('http://localhost:5000/signup',{
-    'methods':'POST',
+    fetch('http://127.0.0.1:5000/signup',{
+      method: "POST",
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      }, 
       body: JSON.stringify({ "email": email, "password": password })
     })
     .then(response => response.json())

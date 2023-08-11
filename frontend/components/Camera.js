@@ -22,7 +22,7 @@ const Camera = ({ navigation, route }) => {
     const takePicture = async () => {
         const response = await fetch(image);
         const blob = await response.blob();
-        fetch('http://localhost:5000/camera',{
+        fetch('http://127.0.0.1:5000/camera',{
         'methods':'POST',
         })
         .then(response => response.json())

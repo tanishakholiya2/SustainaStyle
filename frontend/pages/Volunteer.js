@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     paddingTop: 25
   },
   header: {
-    fontWeight: "250",
+    fontWeight: "300",
     fontSize: 45,
     textAlign: "center", 
     fontFamily: 'Cochin-Bold',

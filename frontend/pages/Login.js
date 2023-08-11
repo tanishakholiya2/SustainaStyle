@@ -6,7 +6,7 @@ export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
     const signin = () => {
-        fetch('http://localhost:5000/login',{
+        fetch('http://127.0.0.1:5000/login',{
       'methods':'POST',
       body: JSON.stringify({ "email": email, "password": password })
     })

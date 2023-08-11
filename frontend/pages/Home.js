@@ -62,7 +62,7 @@ import {
       paddingTop: 25
     },
     header: {
-      fontWeight: "250",
+      fontWeight: "300",
       fontSize: 50,
       textAlign: "center", 
       fontFamily: 'Cochin-Bold',

@@ -1,11 +1,12 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from pymongo import MongoClient
-
+from database import get_database
+from flask_cors import CORS 
+dbname = get_database()
 
 app = Flask(__name__)
-
+CORS(app)
 client = MongoClient("mongodb+srv://sustainastyle:SustainaStyle115@cluster0.xth1dlj.mongodb.net/?retryWrites=true&w=majority")
-db = client.SustainaStyle
 
 @app.route('/', methods=(['GET']), strict_slashes=False)
 def index():
@@ -24,9 +25,20 @@ def login():
    else:
       user = request.args.get('name')
 
-@app.route('/signup',methods = ['POST', 'GET'])
+@app.route('/signup', methods=['POST'])
 def signup():
-   print("hi")
+    data = request.get_json()  # Retrieve JSON data from request body
+    app.logger.debug('hi')
+    email = data.get("email")
+    password = data.get("password")
+
+    if email and password:
+        collection_name = dbname["users"]
+        collection_name.insertOne({"email": email, "score": 0, "password": password})
+        return jsonify({"message": "User signed up successfully"})
+    else:
+        return jsonify({"error": "Missing email or password"}), 400
+
     
 @app.route('/camera',methods = ['POST'])
 def camera():
