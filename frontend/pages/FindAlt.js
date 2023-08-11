@@ -12,8 +12,8 @@ export default  FindAlt = ({navigation}) => {
               </View>
 
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("StoreOptions")}}>
-                  <Text style={styles.buttonText}>upload or take picture of clothing</Text>
+                <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate("Cam")}}>
+                  <Text style={styles.buttonText}>take picture of clothing</Text>
                 </TouchableOpacity>
               </View>
             </View>
