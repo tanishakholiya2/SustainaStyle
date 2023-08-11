@@ -15,6 +15,7 @@ import Signup from './pages/Signup';
 import Volunteer from './pages/Volunteer';
 import History from './pages/History';
 import StoreOptions from './pages/StoreOptions';
+import Camera from './components/Camera';
 import { NativeBaseProvider, Box } from "native-base";
 
 const Stack = createNativeStackNavigator();
@@ -71,6 +72,10 @@ export default function App() {
             component={StoreOptions}
             options={{headerShown: false}}
           />
+          <Stack.Screen
+            name = "Cam"
+            component = {Camera}
+            options = {{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
   );

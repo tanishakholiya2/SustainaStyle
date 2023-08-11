@@ -1,16 +1,14 @@
-import { Text, TouchableOpacity, View, Modal, Image, Alert } from 'react-native';
-import React, { FC, useState, useEffect } from 'react';
+
+import { Text, TouchableOpacity, View, Modal, Image, Alert, Button } from 'react-native';
+import React, {useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import { Ionicons } from "@expo/vector-icons";
-import { usePitScout } from '../Stores';
-import { storage } from '../firebase';
-import { Button, Spinner } from '@ui-kitten/components';
 import Toast from 'react-native-toast-message';
 
-const Camera = ({ navigation, route }) => {   
-    const [hasPermission, setHasPermission] = useState<boolean>(false);
-    const [camera, setCamera] = useState<Camera | null>(null);
-    const [image, setImage] = useState<string>('');
+export default function Cam({navigation}) {
+    const [hasPermission, setHasPermission] = useState(false);
+    const [camera, setCamera] = useState(null);
+    const [image, setImage] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -30,10 +28,10 @@ const Camera = ({ navigation, route }) => {
         .catch(error => console.log(error))
         Alert.alert("Successfully uploaded data");
         setImage('');
+        navigation.navigate('StoreOptions')
     }
 
     if (hasPermission === null) {
-        return <Spinner />;
     }
     if (hasPermission === false) {
         return <Text>Please enable access to Camera</Text>;
@@ -76,16 +74,18 @@ const Camera = ({ navigation, route }) => {
                                         onPress={() => {
                                             setImage('');
                                         }}
+
+                                        title = "Retake Photo"
                                     >
-                                        Retake Photo
                                     </Button>
                                     <Button
                                         style={{}}
                                         onPress={() => {
                                             takePicture();
                                         }}
+
+                                        title = "Upload Photo"
                                     >
-                                        Upload Photo
                                     </Button>
                                 </View>
                             </View>
@@ -135,4 +135,3 @@ const Camera = ({ navigation, route }) => {
     );
 
 }
-export default Camera;
