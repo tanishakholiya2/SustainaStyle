@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, View, TouchableOpacity} from "react-native";
+import { Text, Image, StyleSheet, FlatList, View, TouchableOpacity} from "react-native";
 
 export default  StoreOptions = ({navigation}) => {
     return(
@@ -13,10 +13,14 @@ export default  StoreOptions = ({navigation}) => {
               <View style = {styles.optionsContainer}>
                 <Text style = {styles.text}>found: orange dress</Text>
 
-                <TouchableOpacity style = {styles.item}>
+                <FlatList data = {[
+                    {key: 'CHNGE'},{key: 'HAPPYEARTH'}]}
+
+                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item}>
                     <Image style = {styles.itemImage} source = {require('./sample.png')}/>
-                    <Text style = {styles.buttonText}>CHNGE</Text>
-                </TouchableOpacity>
+                    <Text style = {styles.buttonText}>{item.key}</Text>
+                </TouchableOpacity></View>}
+                    />
               </View>
             </View>
 
@@ -56,6 +60,9 @@ const styles = StyleSheet.create({
       height: 50,
       borderColor: 'black',
       borderWidth: 1,
+    },
+    itemContainer: {
+        paddingBottom: 5
     },
     item: {
         flexDirection: 'row',

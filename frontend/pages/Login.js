@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       color: "white",
-      fontWeight: "350",
+      fontWeight: "300",
       fontSize: 16,
       fontFamily: 'Copperplate',
     },

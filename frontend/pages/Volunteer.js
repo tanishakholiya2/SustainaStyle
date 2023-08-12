@@ -1,5 +1,12 @@
-import { Text, TextInput, Switch,Image, StyleSheet, View, TouchableOpacity} from "react-native";
+import { Text, TextInput, Switch,Image, FlatList, StyleSheet, View, Linking, TouchableOpacity} from "react-native";
 import { useState } from "react";
+
+const VolunteerOption = ({name, link, showOption}) => (
+  <View>
+  {!!showOption && <TouchableOpacity style = {styles.item} onPress= {()=> Linking.openURL("https://" + link)}><Text style = {styles.itemText}>{name}</Text></TouchableOpacity>}
+  </View>
+
+)
 
 export default Volunteer = ({navigation}) => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -16,14 +23,6 @@ export default Volunteer = ({navigation}) => {
 
               <View style = {styles.inputContainer}>
                 <View style = {styles.inputRow}>
-                  <Text style = {styles.text}>age: </Text>
-                  <TextInput  
-                  placeholder="Enter age"
-                  style={styles.input}
-                  />
-                </View>
-
-                <View style = {styles.inputRow}>
                   <Text style = {styles.text}>online: </Text>
                   <Switch  
                     trackColor={{false: '#767577', true: '#9B6B43'}}
@@ -35,9 +34,14 @@ export default Volunteer = ({navigation}) => {
                 </View>
               </View>
 
-              <TouchableOpacity style = {styles.button}>
-                  <Text style = {styles.buttonText}>search</Text>
-                </TouchableOpacity>
+              <FlatList data = {[
+                    {name: 'Solidaridad',
+                    link: 'solidaridadnetwork.org',
+                    online: 'no'},{name: 'traid',
+                    link: 'traid.org.uk',
+                    online: 'yes'}]}
+                    renderItem={({item}) => <VolunteerOption name= {item.name} link = {item.link} showOption={isEnabled ? item.online == 'yes' : item.online == 'no'}/>}
+                    />
             </View>
 
             <View style = {styles.navigationContainer}>
@@ -71,6 +75,35 @@ export default Volunteer = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+  itemContainer: {
+    paddingBottom: 5
+},
+itemText: {
+  fontFamily: 'Copperplate',
+    color: 'white',
+    fontWeight: "200",
+    fontSize: 25
+},
+item: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 5,
+    justifyContent: "space-evenly",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    backgroundColor: "#9B6B43",
+    borderRadius: 25,
+    alignItems: "center",
+    borderColor: '#4D4738',
+    borderWidth: 2,
+    width: 250,
+    height: 38
+},
+optionsContainer: {
+    flexDirection: 'column',
+    paddingTop: 20
+},
   inputContainer: {
     paddingBottom: 20
   },
