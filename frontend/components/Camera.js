@@ -20,15 +20,17 @@ export default function Cam({navigation}) {
     const takePicture = async () => {
         const response = await fetch(image);
         const blob = await response.blob();
-        fetch('http://127.0.0.1:5000/camera',{
-        'methods':'POST',
+        const formData = new FormData();
+        formData.append('image', blob, 'image.jpg'); // 'image.jpg' is the desired filename    
+        fetch(`http://10.21.129.154:5000/camera`,{
+        method:'POST',
+        body: formData
         })
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
-        Alert.alert("Successfully uploaded data");
-        setImage('');
-        navigation.navigate('StoreOptions')
+        .then((response)=>response.json())
+        .then(Alert.alert("Successfully uploaded data"))
+        .then(navigation.navigate('StoreOptions'))
+        .catch(error => console.log(error))        
+        setImage('');  
     }
 
     if (hasPermission === null) {

@@ -7,18 +7,20 @@ export default function SignUp({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const createUser = () => {
-    fetch('http://127.0.0.1:5000/signup',{
+    fetch(`http://10.21.129.154:5000//signup/${email}/${password}`,{
       method: "POST",
       headers: {
-        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
-      }, 
-      body: JSON.stringify({ "email": email, "password": password })
+      },  
+      body: JSON.stringify({"email": email, "password": password})
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log(response); // Log the response object
+      return response.json();
+    })
     .then(response => console.log(response))
-    .catch(error => console.log(error))
-    navigation.navigate('FindAlt')
+    .then(navigation.navigate('FindAlt'))
+    .catch(error => console.log(error));
     }
 
     return(

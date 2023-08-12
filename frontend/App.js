@@ -21,14 +21,13 @@ import { NativeBaseProvider, Box } from "native-base";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // useEffect(()=>{
-  //   fetch('http://localhost:5000/',{
-  //     'methods':'GET',
-  //   })
-  //   .then(response => response.json())
-  //   .then(response => console.log(response))
-  //   .catch(error => console.log(error))
-  // },[])
+  useEffect(()=>{
+    fetch('http://10.21.129.154:5000/test',{
+      'methods':'GET',
+    })
+    .then(response => response.json())
+    .catch(error => console.log(error))
+  },[])
 
   return (
       <NavigationContainer >
