@@ -3,7 +3,8 @@ from pymongo import MongoClient
 from database import get_database
 from flask_cors import CORS 
 from werkzeug.utils import secure_filename
-import os
+from bson.json_util import dumps
+
 dbname = get_database()
 
 app = Flask(__name__)
@@ -38,6 +39,12 @@ def login():
 def test():
     return jsonify({"message": "Server is reachable"})
 
+@app.route('/volunteer', methods = ['GET'])
+def volunteer():
+   collection_name = dbname["volunteering"] 
+   volunteer = collection_name.find()
+   return dumps(list(volunteer))
+
 @app.route('/signup/<email>/<password>', methods=['POST'])
 def signup(email, password):
     if email and password:
@@ -51,43 +58,29 @@ def signup(email, password):
     else:
         return jsonify({"error": "Missing email or password"}), 400
 
-UPLOAD_FOLDER = '/backend/images'  
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-@app.route('/camera', methods=['POST'])
-def camera():
-   target=os.path.join(UPLOAD_FOLDER,'test_docs')
-   if not os.path.isdir(target):
-      os.mkdir(target)
-   logger.info("welcome to upload`")
-   file = request.files['file'] 
-   filename = secure_filename(file.filename)
-   destination="/".join([target, filename])
-   file.save(destination)
-   session['uploadFilePath']=destination
-   response="Whatever you wish to return"
-   return response
-   #  try:
-   #      if 'image' not in request.files:
-   #          return jsonify({"error": "No image provided"}), 400
-        
-   #      image = request.files['image']
-        
-   #      if image.filename == '':
-   #          return jsonify({"error": "No image selected"}), 400
-        
-   #      if image:
-   #          filename = secure_filename(image.filename)
-   #          filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-   #          image.save(filepath)
-            
-   #          # Process the image or save its details in the database
-            
-   #          return jsonify({"message": "Image uploaded successfully"})
-        
-   #      return jsonify({"error": "Unknown error"}), 500
-    
-   #  except Exception as e:
-   #      return jsonify({"error": str(e)}), 500
+@app.route("/image", methods=['GET', 'POST'])
+def image():
+    if(request.method == "POST"):
+        bytesOfImage = request.get_data()
+        with open('image.jpeg', 'wb') as out:
+            out.write(bytesOfImage)
+        return "Image read"
+
+# UPLOAD_FOLDER = './images'
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# @app.route('/camera', methods=['POST'])
+# def camera():
+#    target=os.path.join(UPLOAD_FOLDER,'test_docs')
+#    if not os.path.isdir(target):
+#       os.mkdir(target)
+#    logger.info("welcome to upload`")
+#    file = request.files['file'] 
+#    filename = secure_filename(file.filename)
+#    destination="/".join([target, filename])
+#    file.save(destination)
+#    session['uploadFilePath']=destination
+#    response="Whatever you wish to return"
+#    return response
 
 @app.route('/leaderboard', methods = ['GET'])
 def viewLeaders():

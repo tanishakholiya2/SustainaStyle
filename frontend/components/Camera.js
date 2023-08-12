@@ -4,34 +4,91 @@ import React, {useState, useEffect } from 'react';
 import { Camera } from 'expo-camera';
 import { Ionicons } from "@expo/vector-icons";
 import Toast from 'react-native-toast-message';
+import ImgToBase64 from 'react-native-image-base64';
+import * as FS from 'expo-file-system';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Cam({navigation}) {
     const [hasPermission, setHasPermission] = useState(false);
+    const [cameraRollPer, setPer] = useState(null);
     const [camera, setCamera] = useState(null);
     const [image, setImage] = useState('');
 
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
+            const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+            setPer(permission)
             setHasPermission(status === 'granted');
         })();
     }, []);
-
     const takePicture = async () => {
         const response = await fetch(image);
+        console.log(image);
         const blob = await response.blob();
-        const formData = new FormData();
-        formData.append('image', blob, 'image.jpg'); // 'image.jpg' is the desired filename    
-        fetch(`http://10.21.129.154:5000/camera`,{
-        method:'POST',
-        body: formData
+        console.log(blob)
+        // const formData = new FormData();
+        // formData.append('image', blob, 'image.jpg'); // 'image.jpg' is the desired filename    
+        // fetch(`http://192.168.0.88:5000/camera`,{
+        // method:'POST',
+        // body: formData
+        // })
+        await toServer({
+            type: "image",
+            base64: uriToBase64(image),
+            uri: image
         })
-        .then((response)=>response.json())
-        .then(Alert.alert("Successfully uploaded data"))
-        .then(navigation.navigate('StoreOptions'))
-        .catch(error => console.log(error))        
-        setImage('');  
     }
+    const pickMedia = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          base64: true,
+        });
+        if (result.cancelled) {
+          return;
+        }
+        if (result.type == "image") {
+          await toServer({
+            type: result.type,
+            base64: result.base64,
+            uri: result.uri,
+          });
+        } else {
+          let base64 = await uriToBase64(result.uri);
+          await toServer({
+            type: result.type,
+            base64: base64,
+            uri: result.uri,
+          })
+        }
+      };    
+      const uriToBase64 = async (uri) => {
+        let base64 = await FS.readAsStringAsync(uri, {
+          encoding: FS.EncodingType.Base64,
+        });
+        return base64;
+      };
+    
+
+      toServer = async (mediaFile) => {
+        let schema = "http://";
+        let host = "192.168.0.88";
+        let route = "/image";
+        let port = "5000";
+        let url = "";
+        let content_type = "image/jpeg";
+        url = schema + host + ":" + port + route;
+    
+        let response = await FS.uploadAsync(url, mediaFile.uri, {
+          headers: {
+            "content-type": content_type,
+          },
+          httpMethod: "POST",
+          uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
+        }).then(Alert.alert("Successfully uploaded!")).then(navigation.navigate('StoreOptions'));
+      };
+    
 
     if (hasPermission === null) {
     }
@@ -115,6 +172,7 @@ export default function Cam({navigation}) {
                         ratio={'1:1'}
                     />
                 </View>
+                <View style={{flex: 'col'}}>
                 <TouchableOpacity
                     onPress={async () => {
                         if (camera) {
@@ -132,6 +190,17 @@ export default function Cam({navigation}) {
                         }}
                     />
                 </TouchableOpacity>
+                {cameraRollPer ? (
+                <Button
+                    title="Pick From Gallery"
+                    onPress={async () => {
+                    await pickMedia();
+                    }}
+                />
+                ) : (
+                <Text>Camera Roll Permission Required ! </Text>
+                )}
+                </View>
             </View>
         </>
     );

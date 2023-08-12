@@ -1,5 +1,5 @@
 import { Text, TextInput, Switch,Image, FlatList, StyleSheet, View, Linking, TouchableOpacity} from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const VolunteerOption = ({name, link, showOption}) => (
   <View>
@@ -9,7 +9,17 @@ const VolunteerOption = ({name, link, showOption}) => (
 )
 
 export default Volunteer = ({navigation}) => {
+  useEffect(()=>{
+    fetch('http://192.168.0.88:5000/volunteer',{
+      'methods':'GET',
+    })
+    .then(response => response.json())
+    .then(response => setVolunteer(response))
+    .catch(error => console.log(error))
+  },[])
+  const [volunteer, setVolunteer] = useState([])
   const [isEnabled, setIsEnabled] = useState(false);
+  console.log(volunteer)
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return(
         <>
@@ -34,12 +44,8 @@ export default Volunteer = ({navigation}) => {
                 </View>
               </View>
 
-              <FlatList data = {[
-                    {name: 'Solidaridad',
-                    link: 'solidaridadnetwork.org',
-                    online: 'no'},{name: 'traid',
-                    link: 'traid.org.uk',
-                    online: 'yes'}]}
+              <FlatList 
+                    data = {volunteer}
                     renderItem={({item}) => <VolunteerOption name= {item.name} link = {item.link} showOption={isEnabled ? item.online == 'yes' : item.online == 'no'}/>}
                     />
             </View>
