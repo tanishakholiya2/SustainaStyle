@@ -13,8 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     useEffect(() => {
       const temp = async () => {
         const a = await AsyncStorage.getItem("username");
-        Alert.alert(JSON.stringify(a));
-        Alert.alert("HI")
         if(a){
           setLoggedIn(true);
         }

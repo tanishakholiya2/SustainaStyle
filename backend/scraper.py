@@ -23,7 +23,6 @@ def fetch_results(inc):
     stores = db["stores"]
     baseURL = 'https://google.com/search?q='
     result = []
-    return []
     for store in stores.find():
         try:
             query = inc

@@ -35,6 +35,10 @@ def test():
 
 @app.route('/volunteer', methods = ['GET'])
 def volunteer():
+   jsonData = request.get_json(force=True)
+   username = jsonData["username"]
+   collection_name = dbname["users"]
+   collection_name.update_one({"username": username}, { "$inc": {"points": 20}})
    collection_name = dbname["volunteering"] 
    volunteer = collection_name.find()
    return dumps(list(volunteer))
