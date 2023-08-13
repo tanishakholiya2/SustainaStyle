@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TextInput, StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
 import { useState } from 'react';
 import IP_ADDR from '../config.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AsyncStorage} from 'react-native';
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
