@@ -1,27 +1,28 @@
 import React from 'react';
 import { TextInput, TouchableOpacity, Text, View, StyleSheet, Alert } from 'react-native';
 import { useState } from 'react';
-
+import IP_ADDR from '../config.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignUp({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [points, setPoints] = useState();
+
     const createUser = () => {
-    fetch(`http://${process.env.IP_ADDR}/signup/${email}/${password}`,{
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },  
-      body: JSON.stringify({"email": email, "password": password, "points": points})
-    })
-    .then(response => {
-      console.log(response); // Log the response object
-      return response.json();
-    })
-    .then(response => console.log(response))
-    .then(navigation.navigate('FindAlt'))
-    .catch(error => console.log(error));
+      fetch(`http://${IP_ADDR}/signup`,{
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },  
+        body: JSON.stringify({"username": email, "password": password})
+      })
+      .then(response => {
+        console.log(response); // Log the response object
+        AsyncStorage.setItem("username", response.username);
+        return response.json();
+      })
+      .then(navigation.navigate('FindAlt'))
+      .catch(error => console.log(error));
     }
 
     return(

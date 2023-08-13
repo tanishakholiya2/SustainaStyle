@@ -1,5 +1,7 @@
 import { Text, TextInput, Switch,Image, FlatList, StyleSheet, View, Linking, TouchableOpacity} from "react-native";
 import { useState, useEffect } from "react";
+import IP_ADDR from "../config.js";
+
 
 const VolunteerOption = ({name, link, showOption}) => (
   <View  style = {{paddingBottom: 5}}>
@@ -10,7 +12,7 @@ const VolunteerOption = ({name, link, showOption}) => (
 
 export default Volunteer = ({navigation}) => {
   useEffect(()=>{
-    fetch(`http://${process.env.IP_ADDR}/volunteer`,{
+    fetch('http://'+IP_ADDR+'/volunteer',{
       'methods':'GET',
     })
     .then(response => response.json())
@@ -69,11 +71,7 @@ export default Volunteer = ({navigation}) => {
               </TouchableOpacity>
               </View>
 
-              <View style = {styles.navButtonHolder}>
-              <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("History")}}>
-              <Image style = {styles.navImage} source = {require('./history.png')}/>
-              </TouchableOpacity>
-              </View>
+  
             </View>
           </View>
         </>

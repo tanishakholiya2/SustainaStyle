@@ -24,20 +24,27 @@ def fetch_results(inc):
     baseURL = 'https://google.com/search?q='
     result = []
     for store in stores.find():
-        query = inc
-        time.sleep(1)
-        query = "site:"+store["link"]+" "+query
-        query=query.replace(":", "%3A")
-        query = query.replace(" ", "+")
-        url = baseURL+query
-        res = requests.get(url, headers=headers)
-        soup = BeautifulSoup(res.text, "html.parser")
-        main = soup.find('div', {"id": "search"})
-        div1 = main.find_all("div", class_="MjjYud")
-        div1 = div1[1]
-        div2 = div1.find('div', class_="yuRUbf")
-        a = div2.find('a')["href"]
-        a2 = div1.find_all('a', {'href': a})
-        result.append({"link": a, "name": store})
+        try:
+            query = inc
+            time.sleep(1)
+            query = "site:"+store["link"]+" "+query
+            query=query.replace(":", "%3A")
+            query = query.replace(" ", "+")
+            url = baseURL+query
+            res = requests.get(url, headers=headers)
+            print(res.text)
+            soup = BeautifulSoup(res.text, "html.parser")
+            main = soup.find('div', {"id": "search"})
+            div1 = main.find_all("div", class_="MjjYud")
+            div1 = div1[1]
+            div2 = div1.find('div', class_="yuRUbf")
+            a = div2.find('a')["href"]
+            a2 = div1.find_all('a', {'href': a})
+            result.append({"link": a, "name": store})
+        except Exception:
+            print("EXception")
+            continue
 
     return result
+
+fetch_results("gray jacket")

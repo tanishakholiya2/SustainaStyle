@@ -1,26 +1,30 @@
 import React from 'react';
-import { Text, TextInput, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Text, TextInput, StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
 import { useState } from 'react';
+import IP_ADDR from '../config.js';
+import {AsyncStorage} from 'react-native';
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
-    const [points, setPoints] = useState(0);
+
     const signin = () => {
-        fetch(`http://${process.env.IP_ADDR}/login/${email}/${password}/${points}`,{
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },  
-      body: JSON.stringify({"email": email, "password": password, "points": points})
-    })
-    .then(response => {
-      console.log(response); // Log the response object
-      return response.json();
-    })
-    .then(response => console.log(response))
-    .then(navigation.navigate('FindAlt'))
-    .catch(error => console.log(error));
+      fetch(`http://${IP_ADDR}/login`,{
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },  
+        body: JSON.stringify({"username": email, "password": password})
+      })
+      .then(response => response.json())
+      .then((json => {
+        Alert.alert(JSON.stringify(json)); // Log the response object
+        Alert.alert("HI")
+        AsyncStorage.setItem("username", json["username"]);
+        
+      }))
+      .then(navigation.navigate('FindAlt'))
+      .catch(error => console.log(error));
     }
 
     return(

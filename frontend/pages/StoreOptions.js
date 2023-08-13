@@ -1,19 +1,14 @@
-import { Text, Image, StyleSheet, FlatList, View, Linker, TouchableOpacity} from "react-native";
+import { Text, Image, StyleSheet, FlatList, View, Linker, TouchableOpacity, Alert} from "react-native";
 import { useState, useEffect } from "react";
+import IP_ADDR from "../config.js";
 
-export default  StoreOptions = ({navigation}) => {
-    useEffect(()=>{
-        fetch('http://'+process.env.IP_ADDR+'/results',{
-          'methods':'GET',
-        })
-        .then(response => response.json())
-        .then(response => setLabel(response[0].lbl))
-        .then(response => setResults(response[0].results))
-        .catch(error => console.log(error))
-      },[])
-      const [label, setLabel] = useState("")
-      const [results, setResults] = useState([])
-      
+export default  StoreOptions = ({route, navigation}) => {
+
+  const responseData = route.params.responseData;
+  const label = responseData.label;
+  const results = responseData.results
+  Alert.alert(JSON.stringify(responseData));
+
     return(
         <>
           <View style={styles.container}>
@@ -56,11 +51,7 @@ export default  StoreOptions = ({navigation}) => {
               </TouchableOpacity>
               </View>
 
-              <View style = {styles.navButtonHolder}>
-              <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("History")}}>
-              <Image style = {styles.navImage} source = {require('./history.png')}/>
-              </TouchableOpacity>
-              </View>
+           
             </View>
           </View>
         </>

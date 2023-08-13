@@ -1,10 +1,10 @@
 import { Text, ScrollView, Image, FlatList, StyleSheet, View, TouchableOpacity, Touchable} from "react-native";
 import { useState, useEffect } from "react";
-
+import IP_ADDR from "../config.js";
 
 export default Leaderboard = ({navigation}) => {
   useEffect(()=>{
-    fetch('http://'+process.env.IP_ADDR+'/leaderboard',{
+    fetch('http://'+IP_ADDR+'/leaderboard',{
       'methods':'GET',
     })
     .then(response => response.json())
@@ -27,7 +27,7 @@ export default Leaderboard = ({navigation}) => {
               <View style = {styles.userDisplay}>
                 <FlatList 
                     data = {leader}
-                    renderItem={({item}) => <View style = {{paddingBottom: 7}}><TouchableOpacity style = {styles.button}><Text style = {styles.buttonText}>User: {item.email}</Text><Text style = {styles.buttonText}>Points: {item.points}</Text></TouchableOpacity></View> }
+                    renderItem={({item}) => <View style = {{paddingBottom: 7}}><TouchableOpacity style = {styles.button}><Text style = {styles.buttonText}>User: {item.username}</Text><Text style = {styles.buttonText}>Points: {item.points}</Text></TouchableOpacity></View> }
                     />
               </View>
             </View>
@@ -48,12 +48,6 @@ export default Leaderboard = ({navigation}) => {
               <View style = {styles.navButtonHolder}>
               <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("Volunteer")}}>
               <Image style = {styles.navImage} source = {require('./volunteer.png')}/>
-              </TouchableOpacity>
-              </View>
-
-              <View style = {styles.navButtonHolder}>
-              <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("History")}}>
-              <Image style = {styles.navImage} source = {require('./history.png')}/>
               </TouchableOpacity>
               </View>
             </View>
