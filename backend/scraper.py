@@ -25,7 +25,6 @@ def fetch_results(inc):
     result = []
     for store in stores.find():
         query = inc
-        print(store)
         time.sleep(1)
         query = "site:"+store["link"]+" "+query
         query=query.replace(":", "%3A")
@@ -39,6 +38,6 @@ def fetch_results(inc):
         div2 = div1.find('div', class_="yuRUbf")
         a = div2.find('a')["href"]
         a2 = div1.find_all('a', {'href': a})
-        result.append({"link": a})
+        result.append({"link": a, "name": store})
 
     return result

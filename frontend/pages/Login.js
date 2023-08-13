@@ -7,7 +7,7 @@ export default function Login({navigation}) {
     const [password,setPassword] = useState("");
     const [points, setPoints] = useState(0);
     const signin = () => {
-        fetch(`http://192.168.2.64:5000/login/${email}/${password}/${points}`,{
+        fetch(`http://${process.env.IP_ADDR}/login/${email}/${password}/${points}`,{
       method:'POST',
       headers: {
         'Content-Type': 'application/json'

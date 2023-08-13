@@ -22,7 +22,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   useEffect(()=>{
-    fetch('http://192.168.0.88:5000/test',{
+    fetch(`http://${process.env.IP_ADDR}/test`,{
       'methods':'GET',
     })
     .then(response => response.json())
