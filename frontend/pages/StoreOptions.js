@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 export default  StoreOptions = ({navigation}) => {
 
+
+
     useEffect(()=>{
         fetch('http://192.168.2.64:5000/imageLabel',{
           'methods':'GET',
@@ -13,6 +15,11 @@ export default  StoreOptions = ({navigation}) => {
       },[])
       const [label, setLabel] = useState("")
       console.log(label)
+
+      const goToStore = async (storeName) => {
+        console.log(storeName)
+        //add points to leaderboard
+    }
 
     return(
         <>
@@ -29,7 +36,7 @@ export default  StoreOptions = ({navigation}) => {
                 {!!(label.length !== 0) && <FlatList data = {[
                     {key: 'CHNGE'},{key: 'HAPPYEARTH'}]}
 
-                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item}>
+                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item} onPress = {()=>goToStore(item.key)}>
                     <Image style = {styles.itemImage} source = {require('./sample.png')}/>
                     <Text style = {styles.buttonText}>{item.key}</Text>
                 </TouchableOpacity></View>}
