@@ -3,10 +3,21 @@ import {
     NavigationScreenProp,
     NavigationState,
   } from "react-navigation";
-  import { Text, Image, StyleSheet, View, TouchableOpacity} from "react-native";
+  import { Text, Image, StyleSheet, View, TouchableOpacity, Alert} from "react-native";
+  import { useState, useEffect } from "react";
 
   export default Home = ({navigation}) => {
 
+    const [loggedIn, setLoggedIn] = useState(false);
+    useEffect(() => {
+      const temp = async () => {
+        const a = await AsyncStorage.getItem("username");
+        if(a){
+          setLoggedIn(true);
+        }
+      }
+      temp();
+    })
     return(
         <>
         <View style={styles.container}>
@@ -21,20 +32,22 @@ import {
             <View style = {styles.imageContainer} >
               <Image style = {styles.image}  source = {require('./homePage.png')}/>
             </View>
-
-            <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={()=>{navigation.navigate("Login")}} style={styles.button}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-
-            <Text style = {styles.text}> or </Text>
-
-            <TouchableOpacity onPress={()=>{navigation.navigate("Signup")}} style={styles.button}>
-              <Text style={styles.buttonText}>Signup</Text>
-            </TouchableOpacity>
-
-            
-            </View>
+            {loggedIn ? 
+              <TouchableOpacity onPress={()=>{navigation.navigate("Cam")}} style={styles.button}>
+                <Text style={styles.buttonText}>Open Camera</Text>
+              </TouchableOpacity> :
+              <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={()=>{navigation.navigate("Login")}} style={styles.button}>
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+  
+              <Text style = {styles.text}> or </Text>
+  
+              <TouchableOpacity onPress={()=>{navigation.navigate("Signup")}} style={styles.button}>
+                <Text style={styles.buttonText}>Signup</Text>
+              </TouchableOpacity>
+              </View>
+            }
           </View>
         </View>
         </>

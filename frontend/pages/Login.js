@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, TextInput, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import IP_ADDR from '../config.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ export default function Login({navigation}) {
       })
       .then(response => {
         console.log(response); // Log the response object
+        AsyncStorage.setItem("username", response.username);
         return response.json();
       })
       .then(response => console.log(response))
