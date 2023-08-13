@@ -71,11 +71,7 @@ export default Volunteer = ({navigation}) => {
               </TouchableOpacity>
               </View>
 
-              <View style = {styles.navButtonHolder}>
-              <TouchableOpacity style = {styles.navigationButton} onPress={()=>{navigation.navigate("History")}}>
-              <Image style = {styles.navImage} source = {require('./history.png')}/>
-              </TouchableOpacity>
-              </View>
+  
             </View>
           </View>
         </>

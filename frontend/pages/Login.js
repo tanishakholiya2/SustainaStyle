@@ -17,9 +17,8 @@ export default function Login({navigation}) {
         body: JSON.stringify({"username": email, "password": password})
       })
       .then(response => {
-        console.log(response); // Log the response object
-        if(response && response.username) {AsyncStorage.setItem("username", response.username);}
-        return response.json();
+        Alert.alert(JSON.stringify(response.data[0])) // Log the response object
+        AsyncStorage.setItem("username", response.data[0].username);
       })
       .then(response => console.log(response))
       .then(navigation.navigate('FindAlt'))
