@@ -4,10 +4,13 @@ from database import get_database
 from flask_cors import CORS 
 from werkzeug.utils import secure_filename
 from bson.json_util import dumps
-
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 dbname = get_database()
 
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
+jwt = JWTManager(app)
+
 @app.after_request
 def add_cors_headers(response):
     response.headers['Access-Control-Allow-Origin'] = '*'  # Allow requests from any origin

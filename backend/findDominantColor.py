@@ -18,7 +18,7 @@ def visualize_colors(cluster, centroids):
     return color[1]
 
 # Load image and convert to a list of pixels
-image = cv2.imread('sample_image.png')
+image = cv2.imread('image.jpeg')
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 reshape = image.reshape((image.shape[0] * image.shape[1], 3))
 

@@ -109,16 +109,16 @@ print(rgb)
 common_color = convert_rgb_to_names(rgb)
 
 # Read Image
-img = Image.open('sample_image.png')
+img = Image.open('image.jpeg')
 
 # Remove background
 img = remove(img)
 
 # Prepare image for model
 
-img = edit_image_grayscale(img, 'sample_image.png')
+img = edit_image_grayscale(img, 'image.jpeg')
 
-img = load_image('sample_image.png')
+img = load_image('image.jpeg')
 
 # Classify clothing item
 
