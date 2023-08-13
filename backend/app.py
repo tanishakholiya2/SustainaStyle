@@ -5,6 +5,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from bson.json_util import dumps
 import identifyClothingLabel
+import scraper
 import os
 from operator import itemgetter
 

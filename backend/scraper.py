@@ -36,3 +36,5 @@ for store in stores.find():
     src = img['src']
     print([a, src])
 
+
+

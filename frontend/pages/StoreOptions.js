@@ -14,13 +14,7 @@ export default  StoreOptions = ({navigation}) => {
         .catch(error => console.log(error))
       },[])
       const [label, setLabel] = useState("")
-      console.log(label)
-
-      const goToStore = async (storeName) => {
-        console.log(storeName)
-        //add points to leaderboard
-    }
-
+      
     return(
         <>
           <View style={styles.container}>
@@ -36,7 +30,7 @@ export default  StoreOptions = ({navigation}) => {
                 {!!(label.length !== 0) && <FlatList data = {[
                     {key: 'CHNGE'},{key: 'HAPPYEARTH'}]}
 
-                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item} onPress = {()=>goToStore(item.key)}>
+                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item}>
                     <Image style = {styles.itemImage} source = {require('./sample.png')}/>
                     <Text style = {styles.buttonText}>{item.key}</Text>
                 </TouchableOpacity></View>}
