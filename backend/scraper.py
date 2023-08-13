@@ -14,8 +14,7 @@ def get_database():
    return client['SustainaStyle']
 
 headers = {
-    "User-Agent":
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
 }
 db = get_database()
 stores = db["stores"]
@@ -28,10 +27,11 @@ for store in stores.find():
     query = query.replace(" ", "+")
     url = baseURL+query
     res = requests.get(url, headers=headers)
+    print(res.text)
     soup = BeautifulSoup(res.text, "html.parser")
     div = soup.find('div', class_="MjjYud")
     div2 = div.find('div', class_="yuRUbf")
-    a = div2.find('a')
+    a = div2.find('a')["href"]
     img = div.find('img')
     src = img['src']
     print([a, src])

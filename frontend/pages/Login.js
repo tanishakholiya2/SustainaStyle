@@ -5,13 +5,14 @@ import { useState } from 'react';
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const [points, setPoints] = useState(0);
     const signin = () => {
-        fetch(`http://192.168.2.64:5000/login/${email}/${password}`,{
+        fetch(`http://192.168.2.64:5000/login/${email}/${password}/${points}`,{
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
       },  
-      body: JSON.stringify({"email": email, "password": password})
+      body: JSON.stringify({"email": email, "password": password, "points": points})
     })
     .then(response => {
       console.log(response); // Log the response object

@@ -27,7 +27,7 @@ export default Leaderboard = ({navigation}) => {
               <View style = {styles.userDisplay}>
                 <FlatList 
                     data = {leader}
-                    renderItem={({item}) => <View style = {{paddingBottom: 7}}><TouchableOpacity style = {styles.button}><Text style = {styles.buttonText}>User: {item.email}</Text><Text style = {styles.buttonText}>Points: 0</Text></TouchableOpacity></View> }
+                    renderItem={({item}) => <View style = {{paddingBottom: 7}}><TouchableOpacity style = {styles.button}><Text style = {styles.buttonText}>User: {item.email}</Text><Text style = {styles.buttonText}>Points: {item.points}</Text></TouchableOpacity></View> }
                     />
               </View>
             </View>

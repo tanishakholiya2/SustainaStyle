@@ -32,12 +32,14 @@ def index():
 # def index():
 #     return jsonify([])
 
-@app.route('/login/<email>/<password>',methods = ['POST', 'GET'])
-def login(email, password):
+@app.route('/login/<email>/<password>/<points>',methods = ['POST', 'GET'])
+def login(email, password, points):
    if request.method == 'POST':
       global username
       username = {"email": email,
-              "password": password}
+              "password": password, "points": points}
+      collection_name = dbname["users"]
+      collection_name.update_one({"email": username["email"]}, { "$inc": {"points": 20}})
       # set current user to this user
       return jsonify({"message": "User logged in successfully"})
    else:
@@ -64,6 +66,7 @@ def signup(email, password):
       user = {
          "email": email,
          "password": password,
+         "points": 0
       }
       global username
       username = user
@@ -77,6 +80,9 @@ def signup(email, password):
 def image():
     if(request.method == "POST"):
         bytesOfImage = request.get_data()
+        global username
+        collection_name = dbname["users"]
+        collection_name.update_one({"email": username["email"]}, { "$inc": {"points": 100}})
         with open('image.jpeg', 'wb') as out:
             out.write(bytesOfImage)
         
@@ -102,7 +108,7 @@ def image():
 def leaderboard():
    collection_name = dbname["users"] 
    users = collection_name.find()
-   return dumps(sorted(list((users)), key=itemgetter('email'), reverse=True)) # change key to points when points are added
+   return dumps(sorted(list((users)), key=itemgetter('points'), reverse=True)) # change key to points when points are added
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

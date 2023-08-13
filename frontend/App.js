@@ -50,6 +50,7 @@ export default function App() {
           <Stack.Screen
             name="Signup"
             component={Signup}
+            options = {{headerShown: false}}
           />
           <Stack.Screen
             name="Leaderboard"
