@@ -1,13 +1,14 @@
-import { Text, Image, StyleSheet, FlatList, View, Linker, TouchableOpacity} from "react-native";
+import { Text, Image, StyleSheet, FlatList, View, Linker, TouchableOpacity, Alert} from "react-native";
 import { useState, useEffect } from "react";
 import IP_ADDR from "../config.js";
 
 export default  StoreOptions = ({route, navigation}) => {
 
-  const responseData = route.params;
+  const responseData = route.params.responseData;
   const label = responseData.label;
   const results = responseData.results
-      
+  Alert.alert(JSON.stringify(responseData));
+
     return(
         <>
           <View style={styles.container}>

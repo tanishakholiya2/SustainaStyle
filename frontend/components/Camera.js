@@ -108,16 +108,15 @@ export default function Cam({navigation}) {
         await blobToBase64(blobbed).then(async (res) =>{
             based = res;
         });
-        Alert.alert(based);
         const username = await AsyncStorage.getItem('username');
-        axios.post(`http://${IP_ADDR}/results`, 
+        await axios.post(`http://${IP_ADDR}/results`, 
             {
                 username: username,
                 img: based
             }
         )
         .then(function (response) {
-            navigation.navigate('StoreOptions', { responseData: response.data});
+            navigation.navigate('StoreOptions', { responseData: response.data[0]});
         })
         .catch(function (error) {
             alert(error)
