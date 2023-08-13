@@ -59,7 +59,7 @@ def predictClass(img):
       clothing = "bag"
  return clothing
 
-color_key = {"darkgray": "gray", "gray": "gray", "darkslategray": "gray", "slategray": "gray", "whitesmoke": "gray","silver": "gray", "linen": "gray"}
+color_key = {"darkgray": "gray", "black":"black","gray": "gray", "darkslategray": "gray", "slategray": "gray", "whitesmoke": "gray","silver": "gray", "gainsboro": "gray", "linen": "gray"}
 
 def convert_rgb_to_names(rgb_tuple):
     # a dictionary of all the hex and their respective names in css3
