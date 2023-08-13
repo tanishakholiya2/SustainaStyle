@@ -1,9 +1,10 @@
 import { Text, Image, StyleSheet, FlatList, View, Linker, TouchableOpacity} from "react-native";
 import { useState, useEffect } from "react";
+import IP_ADDR from "../config.js";
 
 export default  StoreOptions = ({navigation}) => {
     useEffect(()=>{
-        fetch('http://'+process.env.IP_ADDR+'/results',{
+        fetch('http://'+IP_ADDR+'/results',{
           'methods':'GET',
         })
         .then(response => response.json())

@@ -1,14 +1,14 @@
 import React from 'react';
 import { TextInput, TouchableOpacity, Text, View, StyleSheet, Alert } from 'react-native';
 import { useState } from 'react';
-
+import IP_ADDR from '../config.js';
 
 export default function SignUp({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [points, setPoints] = useState();
     const createUser = () => {
-    fetch(`http://${process.env.IP_ADDR}/signup/${email}/${password}`,{
+    fetch(`http://${IP_ADDR}/signup/${email}/${password}`,{
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

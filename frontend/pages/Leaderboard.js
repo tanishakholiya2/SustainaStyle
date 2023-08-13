@@ -1,10 +1,10 @@
 import { Text, ScrollView, Image, FlatList, StyleSheet, View, TouchableOpacity, Touchable} from "react-native";
 import { useState, useEffect } from "react";
-
+import IP_ADDR from "../config.js";
 
 export default Leaderboard = ({navigation}) => {
   useEffect(()=>{
-    fetch('http://'+process.env.IP_ADDR+'/leaderboard',{
+    fetch('http://'+IP_ADDR+'/leaderboard',{
       'methods':'GET',
     })
     .then(response => response.json())

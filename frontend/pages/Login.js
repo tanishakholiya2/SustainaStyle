@@ -1,13 +1,14 @@
 import React from 'react';
 import { Text, TextInput, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
+import IP_ADDR from '../config.js';
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [points, setPoints] = useState(0);
     const signin = () => {
-        fetch(`http://${process.env.IP_ADDR}/login/${email}/${password}/${points}`,{
+        fetch(`http://${IP_ADDR}/login/${email}/${password}/${points}`,{
       method:'POST',
       headers: {
         'Content-Type': 'application/json'

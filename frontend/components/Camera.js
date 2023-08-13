@@ -8,6 +8,7 @@ import ImgToBase64 from 'react-native-image-base64';
 import * as FS from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import IP_ADDR from '../config.js'
 
 export default function Cam({navigation}) {
     const [hasPermission, setHasPermission] = useState(false);
@@ -75,7 +76,7 @@ export default function Cam({navigation}) {
       toServer = async (mediaFile) => {
         let schema = "http://";
         let host = "192.168.2.64";
-        let route = "/image";
+        let route = "/results";
         let port = "5000";
         let url = "";
         let content_type = "image/jpeg";
