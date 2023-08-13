@@ -43,6 +43,7 @@ def volunteer():
 def results():
     jsonData = request.get_json(force=True)
     bytesOfImage = bytes(request.json["img"][23:], "utf-8")
+    print(jsonData["username"])
     collection_name = dbname["users"]
     collection_name.update_one({"username": jsonData["username"]}, { "$inc": {"points": 100}})
     with open('image.jpg', 'wb') as out:
@@ -70,15 +71,17 @@ def signup():
     password = jsonData["password"]
 
     if username and password:
-      user = {
-         "username": username,
-         "password": password,
-         "points": 0,
-         "results": []
-      }
-      collection_name = dbname["users"]
-      collection_name.insert_one(user)
-      return jsonify({"message": "User signed up successfully"})
+        user = {
+            "username": username,
+            "password": password,
+            "points": 0,
+            "results": []
+        }
+        collection_name = dbname["users"]
+        collection_name.insert_one(user)
+        temp = dumps(list([{"username": username, "success": True}]))
+        print(temp)
+        return {"username": username}
     else:
         return jsonify({"error": "Missing username or password"}), 400
 
@@ -94,7 +97,9 @@ def login():
     
     collection_name.update_one({"username": username}, { "$inc": {"points": 20}})
     # set current user to this user
-    return jsonify({"message": "User logged in successfully", "username": username})
+    temp = dumps(list([{"username": username, "success": True}]))
+    print(temp)
+    return jsonify({"username": username})
 
 @app.route('/leaderboard', methods = ['GET'])
 def leaderboard():

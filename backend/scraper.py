@@ -23,6 +23,7 @@ def fetch_results(inc):
     stores = db["stores"]
     baseURL = 'https://google.com/search?q='
     result = []
+    return []
     for store in stores.find():
         try:
             query = inc
@@ -32,6 +33,7 @@ def fetch_results(inc):
             query = query.replace(" ", "+")
             url = baseURL+query
             res = requests.get(url, headers=headers)
+            print(res.text)
             soup = BeautifulSoup(res.text, "html.parser")
             main = soup.find('div', {"id": "search"})
             div1 = main.find_all("div", class_="MjjYud")
@@ -41,6 +43,9 @@ def fetch_results(inc):
             a2 = div1.find_all('a', {'href': a})
             result.append({"link": a, "name": store})
         except Exception:
+            print("EXception")
             continue
 
     return result
+
+fetch_results("gray jacket")

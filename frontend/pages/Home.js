@@ -3,8 +3,9 @@ import {
     NavigationScreenProp,
     NavigationState,
   } from "react-navigation";
-  import { Text, Image, StyleSheet, View, TouchableOpacity, Alert} from "react-native";
-  import { useState, useEffect } from "react";
+import { Text, Image, StyleSheet, View, TouchableOpacity, Alert} from "react-native";
+import { useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
   export default Home = ({navigation}) => {
 
@@ -12,12 +13,14 @@ import {
     useEffect(() => {
       const temp = async () => {
         const a = await AsyncStorage.getItem("username");
+        Alert.alert(JSON.stringify(a));
+        Alert.alert("HI")
         if(a){
           setLoggedIn(true);
         }
       }
       temp();
-    })
+    }, [])
     return(
         <>
         <View style={styles.container}>

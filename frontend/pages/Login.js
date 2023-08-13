@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TextInput, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Text, TextInput, StyleSheet, View, TouchableOpacity, Alert } from 'react-native';
 import { useState } from 'react';
 import IP_ADDR from '../config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,12 +16,13 @@ export default function Login({navigation}) {
         },  
         body: JSON.stringify({"username": email, "password": password})
       })
-      .then(response => {
-        console.log(response); // Log the response object
-        AsyncStorage.setItem("username", response.username);
-        return response.json();
-      })
-      .then(response => console.log(response))
+      .then(response => response.json())
+      .then((json => {
+        Alert.alert(JSON.stringify(json)); // Log the response object
+        Alert.alert("HI")
+        AsyncStorage.setItem("username", json["username"]);
+        
+      }))
       .then(navigation.navigate('FindAlt'))
       .catch(error => console.log(error));
     }
