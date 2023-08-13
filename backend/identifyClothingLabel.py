@@ -59,9 +59,7 @@ def predictClass(img):
       clothing = "bag"
  return clothing
 
-# rgb to color name
-css3_db = CSS3_HEX_TO_NAMES
-print(css3_db)
+color_key = {"darkgray": "gray", "gray": "gray", "darkslategray": "gray", "slategray": "gray", "whitesmoke": "gray","silver": "gray", "linen": "gray"}
 
 def convert_rgb_to_names(rgb_tuple):
     # a dictionary of all the hex and their respective names in css3
@@ -75,7 +73,7 @@ def convert_rgb_to_names(rgb_tuple):
     
     kdt_db = KDTree(rgb_values)
     distance, index = kdt_db.query(rgb_tuple)
-    return f'{names[index]}'
+    return f'{color_key[names[index]]}'
  
 
 # get dominant rgb
