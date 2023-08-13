@@ -7,6 +7,7 @@ import identifyClothingLabel
 import scraper
 import os
 from operator import itemgetter
+import base64
 
 dbname = get_database()
 
@@ -28,18 +29,6 @@ def index():
     app.logger.debug(client.server_info())
     return "Hello World!"
 
-@app.route('/login/<email>/<password>/<points>',methods = ['POST', 'GET'])
-def login(email, password, points):
-   if request.method == 'POST':
-      username = {"email": email,
-              "password": password, "points": points}
-      collection_name = dbname["users"]
-      collection_name.update_one({"email": username["email"]}, { "$inc": {"points": 20}})
-      # set current user to this user
-      return jsonify({"message": "User logged in successfully"})
-   else:
-      user = request.args.get('name')
-
 @app.route('/test', methods=['GET'])
 def test():
     return jsonify({"message": "Server is reachable"})
@@ -51,32 +40,61 @@ def volunteer():
    return dumps(list(volunteer))
 
 @app.route('/results', methods = ['POST'])
-def results(user):
-    bytesOfImage = request.get_data()
+def results():
+    jsonData = request.get_json(force=True)
+    bytesOfImage = bytes(request.json["img"][23:], "utf-8")
     collection_name = dbname["users"]
-    collection_name.update_one({"email": user["email"]}, { "$inc": {"points": 100}})
-    with open('image.jpeg', 'wb') as out:
-        out.write(bytesOfImage)
-    
-    label = identifyClothingLabel.getLabel('image.jpeg')
-    os.remove('image.jpeg')
-    return dumps(list([{"lbl": label, "results": scraper.fetch_results(label)}]))
+    collection_name.update_one({"username": jsonData["username"]}, { "$inc": {"points": 100}})
+    with open('image.jpg', 'wb') as out:
+        out.write(base64.decodebytes(bytesOfImage))
 
-@app.route('/signup/<email>/<password>', methods=['POST'])
-def signup(email, password):
-    if email and password:
+    label = identifyClothingLabel.getLabel('image.jpg')
+    print(label)
+    os.remove('image.jpg')
+    res = dumps(list([{"label": label, "results": scraper.fetch_results(label)}]))
+    collection_name.update_one({"username": jsonData["username"]}, {"$push": {"results": res}})
+    print(res)
+    return res
+
+
+@app.route('/history', methods=['GET'])
+def history(user):
+    collection_name = dbname["users"]
+    user = collection_name.find_one({"username": user["username"]})
+    return dumps(list(user.results))
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    jsonData = request.get_json(force=True)
+    username = jsonData["username"]
+    password = jsonData["password"]
+
+    if username and password:
       user = {
-         "email": email,
+         "username": username,
          "password": password,
-         "points": 0
+         "points": 0,
+         "results": []
       }
-      global username
-      username = user
       collection_name = dbname["users"]
-      collection_name.insert_many([user])
+      collection_name.insert_one(user)
       return jsonify({"message": "User signed up successfully"})
     else:
-        return jsonify({"error": "Missing email or password"}), 400
+        return jsonify({"error": "Missing username or password"}), 400
+
+@app.route('/login',methods = ['POST'])
+def login():
+    jsonData = request.get_json(force=True)
+    username = jsonData["username"]
+    password = jsonData["password"]
+    collection_name = dbname["users"]
+    user = collection_name.find_one({"username": username, "password": password})
+    if(user == None):
+        return "Username or password not found", 401
+    
+    collection_name.update_one({"username": username}, { "$inc": {"points": 20}})
+    # set current user to this user
+    return jsonify({"message": "User logged in successfully", "username": username})
 
 @app.route('/leaderboard', methods = ['GET'])
 def leaderboard():

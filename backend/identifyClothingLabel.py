@@ -60,10 +60,13 @@ def predictClass(img):
  return clothing
 
 # rgb to color name
+css3_db = CSS3_HEX_TO_NAMES
+print(css3_db)
 
 def convert_rgb_to_names(rgb_tuple):
     # a dictionary of all the hex and their respective names in css3
     css3_db = CSS3_HEX_TO_NAMES
+    print(css3_db)
     names = []
     rgb_values = []
     for color_hex, color_name in css3_db.items():

@@ -5,6 +5,7 @@ scipy
 numpy
 keras
 sklearn
+scikit-learn
 matplotlib
 rembg
 opencv-python
