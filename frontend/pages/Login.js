@@ -6,15 +6,22 @@ export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
     const signin = () => {
-        fetch('http://127.0.0.1:5000/login',{
-      'methods':'POST',
-      body: JSON.stringify({ "email": email, "password": password })
+        fetch(`http://192.168.2.64:5000/login/${email}/${password}`,{
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },  
+      body: JSON.stringify({"email": email, "password": password})
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log(response); // Log the response object
+      return response.json();
+    })
     .then(response => console.log(response))
-    .catch(error => console.log(error))
-    navigation.navigate("FindAlt")
+    .then(navigation.navigate('FindAlt'))
+    .catch(error => console.log(error));
     }
+
     return(
         <>
         <View style={styles.container}> 

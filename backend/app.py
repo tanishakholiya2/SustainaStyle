@@ -6,10 +6,11 @@ from werkzeug.utils import secure_filename
 from bson.json_util import dumps
 import identifyClothingLabel
 import os
+from operator import itemgetter
 
 dbname = get_database()
 
-label = ""
+username = {}
 
 app = Flask(__name__)
 @app.after_request
@@ -31,11 +32,14 @@ def index():
 # def index():
 #     return jsonify([])
 
-@app.route('/login',methods = ['POST', 'GET'])
-def login():
+@app.route('/login/<email>/<password>',methods = ['POST', 'GET'])
+def login(email, password):
    if request.method == 'POST':
-      user = request.form['name']
-      return redirect(url_for('dashboard',name = user))
+      global username
+      username = {"email": email,
+              "password": password}
+      # set current user to this user
+      return jsonify({"message": "User logged in successfully"})
    else:
       user = request.args.get('name')
 
@@ -61,6 +65,8 @@ def signup(email, password):
          "email": email,
          "password": password,
       }
+      global username
+      username = user
       collection_name = dbname["users"]
       collection_name.insert_many([user])
       return jsonify({"message": "User signed up successfully"})
@@ -93,9 +99,10 @@ def image():
 #    return response
 
 @app.route('/leaderboard', methods = ['GET'])
-def viewLeaders():
-   print('hi')
-   #return an array of all users in the leaderboard
+def leaderboard():
+   collection_name = dbname["users"] 
+   users = collection_name.find()
+   return dumps(sorted(list((users)), key=itemgetter('email'), reverse=True)) # change key to points when points are added
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

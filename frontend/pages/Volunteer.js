@@ -2,7 +2,7 @@ import { Text, TextInput, Switch,Image, FlatList, StyleSheet, View, Linking, Tou
 import { useState, useEffect } from "react";
 
 const VolunteerOption = ({name, link, showOption}) => (
-  <View>
+  <View  style = {{paddingBottom: 5}}>
   {!!showOption && <TouchableOpacity style = {styles.item} onPress= {()=> Linking.openURL("https://" + link)}><Text style = {styles.itemText}>{name}</Text></TouchableOpacity>}
   </View>
 
@@ -46,7 +46,7 @@ export default Volunteer = ({navigation}) => {
 
               <FlatList 
                     data = {volunteer}
-                    renderItem={({item}) => <VolunteerOption name= {item.name} link = {item.link} showOption={isEnabled ? item.online == 'yes' : item.online == 'no'}/>}
+                    renderItem={({item}) => <VolunteerOption name= {item.name} link = {item.link} showOption={isEnabled ? item.online == 'yes' : item.online == 'no' || item.online == 'yes'}/>}
                     />
             </View>
 
@@ -88,7 +88,7 @@ itemText: {
   fontFamily: 'Copperplate',
     color: 'white',
     fontWeight: "200",
-    fontSize: 25
+    fontSize: 20
 },
 item: {
     flexDirection: 'row',
@@ -99,12 +99,13 @@ item: {
     shadowRadius: 2,
     shadowOpacity: 0.3,
     backgroundColor: "#9B6B43",
-    borderRadius: 25,
+    borderRadius: 5,
     alignItems: "center",
     borderColor: '#4D4738',
     borderWidth: 2,
     width: 250,
-    height: 38
+    height: 38,
+    paddingBottom: 5
 },
 optionsContainer: {
     flexDirection: 'column',
@@ -217,7 +218,7 @@ optionsContainer: {
     shadowRadius: 3,
     shadowOpacity: 0.3,
     backgroundColor: "#4D4738",
-    borderRadius: 40,
+    borderRadius: 5,
     borderColor: "#9B6B43",
     borderWidth: 2,
     alignItems: "center",
