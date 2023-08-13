@@ -8,7 +8,7 @@ export default function SignUp({navigation}) {
     const [password, setPassword] = useState("");
     const [points, setPoints] = useState();
     const createUser = () => {
-    fetch(`http://192.168.2.64:5000/signup/${email}/${password}`,{
+    fetch(`http://${process.env.IP_ADDR}/signup/${email}/${password}`,{
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

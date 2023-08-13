@@ -1,26 +1,19 @@
-import { Text, Image, StyleSheet, FlatList, View, TouchableOpacity} from "react-native";
+import { Text, Image, StyleSheet, FlatList, View, Linker, TouchableOpacity} from "react-native";
 import { useState, useEffect } from "react";
 
 export default  StoreOptions = ({navigation}) => {
-
-
-
     useEffect(()=>{
-        fetch('http://192.168.2.64:5000/imageLabel',{
+        fetch('http://'+process.env.IP_ADDR+'/results',{
           'methods':'GET',
         })
         .then(response => response.json())
         .then(response => setLabel(response[0].lbl))
+        .then(response => setResults(response[0].results))
         .catch(error => console.log(error))
       },[])
       const [label, setLabel] = useState("")
-      console.log(label)
-
-      const goToStore = async (storeName) => {
-        console.log(storeName)
-        //add points to leaderboard
-    }
-
+      const [results, setResults] = useState([])
+      
     return(
         <>
           <View style={styles.container}>
@@ -33,12 +26,12 @@ export default  StoreOptions = ({navigation}) => {
               <View style = {styles.optionsContainer}>
                 <Text style = {styles.text}>{label.length == 0 ? "loading results": "found: " + label}</Text>
 
-                {!!(label.length !== 0) && <FlatList data = {[
-                    {key: 'CHNGE'},{key: 'HAPPYEARTH'}]}
+                {!!(label.length !== 0) && <FlatList data = {results}
 
-                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item} onPress = {()=>goToStore(item.key)}>
-                    <Image style = {styles.itemImage} source = {require('./sample.png')}/>
-                    <Text style = {styles.buttonText}>{item.key}</Text>
+                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item} onPress = {()=> Linker.openURL(item.link)}>
+                  {//  <Image style = {styles.itemImage} source = {require('./sample.png')}/> 
+                  }
+                    <Text style = {styles.buttonText}>{item.name}</Text>
                 </TouchableOpacity></View>}
                     />}
               </View>

@@ -29,7 +29,6 @@ def edit_image_grayscale(img, filename):
 	new_image = img.resize((28,28))
 	new_image = new_image.convert('L')
 	new_image.save(filename)
-	new_image.show()
 	return new_image
 
 # predict the class

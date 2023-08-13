@@ -2,9 +2,9 @@ from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from database import get_database
 from flask_cors import CORS 
-from werkzeug.utils import secure_filename
 from bson.json_util import dumps
 import identifyClothingLabel
+import scraper
 import os
 from operator import itemgetter
 
@@ -31,14 +31,9 @@ def index():
     app.logger.debug(client.server_info())
     return "Hello World!"
 
-# @app.route('/', methods=(['PUT']), strict_slashes=False)
-# def index():
-#     return jsonify([])
-
 @app.route('/login/<email>/<password>/<points>',methods = ['POST', 'GET'])
 def login(email, password, points):
    if request.method == 'POST':
-      global username
       username = {"email": email,
               "password": password, "points": points}
       collection_name = dbname["users"]
@@ -58,10 +53,17 @@ def volunteer():
    volunteer = collection_name.find()
    return dumps(list(volunteer))
 
-@app.route('/imageLabel', methods = ['GET'])
-def imageLabel():
-   label = identifyClothingLabel.getLabel('image.jpeg')
-   return dumps(list([{"lbl": label}]))
+@app.route('/results', methods = ['POST'])
+def results(user):
+    bytesOfImage = request.get_data()
+    collection_name = dbname["users"]
+    collection_name.update_one({"email": user["email"]}, { "$inc": {"points": 100}})
+    with open('image.jpeg', 'wb') as out:
+        out.write(bytesOfImage)
+    
+    label = identifyClothingLabel.getLabel('image.jpeg')
+    os.remove('image.jpeg')
+    return dumps(list([{"lbl": label, "results": scraper.fetch_results(label)}]))
 
 @app.route('/signup/<email>/<password>', methods=['POST'])
 def signup(email, password):
@@ -78,34 +80,6 @@ def signup(email, password):
       return jsonify({"message": "User signed up successfully"})
     else:
         return jsonify({"error": "Missing email or password"}), 400
-
-@app.route("/image", methods=['GET', 'POST'])
-def image():
-    if(request.method == "POST"):
-        bytesOfImage = request.get_data()
-        global username
-        collection_name = dbname["users"]
-        collection_name.update_one({"email": username["email"]}, { "$inc": {"points": 100}})
-        with open('image.jpeg', 'wb') as out:
-            out.write(bytesOfImage)
-        
-        return "hey"
-
-# UPLOAD_FOLDER = './images'
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# @app.route('/camera', methods=['POST'])
-# def camera():
-#    target=os.path.join(UPLOAD_FOLDER,'test_docs')
-#    if not os.path.isdir(target):
-#       os.mkdir(target)
-#    logger.info("welcome to upload`")
-#    file = request.files['file'] 
-#    filename = secure_filename(file.filename)
-#    destination="/".join([target, filename])
-#    file.save(destination)
-#    session['uploadFilePath']=destination
-#    response="Whatever you wish to return"
-#    return response
 
 @app.route('/leaderboard', methods = ['GET'])
 def leaderboard():

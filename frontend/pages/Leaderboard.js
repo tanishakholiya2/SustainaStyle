@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default Leaderboard = ({navigation}) => {
   useEffect(()=>{
-    fetch('http://192.168.2.64:5000/leaderboard',{
+    fetch('http://'+process.env.IP_ADDR+'/leaderboard',{
       'methods':'GET',
     })
     .then(response => response.json())
