@@ -14,8 +14,6 @@ dbname = get_database()
 username = {}
 
 app = Flask(__name__)
-app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
-jwt = JWTManager(app)
 
 @app.after_request
 def add_cors_headers(response):

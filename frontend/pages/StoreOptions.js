@@ -22,12 +22,12 @@ export default  StoreOptions = ({route, navigation}) => {
                 <Text style = {styles.text}>{label.length == 0 ? "loading results": "found: " + label}</Text>
 
                 {!!(label.length !== 0) && <FlatList data = {results}
-
-                    renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item} onPress = {()=> Linker.openURL(item.link)}>
-                  {//  <Image style = {styles.itemImage} source = {require('./sample.png')}/> 
-                  }
-                    <Text style = {styles.buttonText}>{item.name}</Text>
-                </TouchableOpacity></View>}
+                    renderItem={({item}) => <StoreOption name= {item.name} link = {item.link} />}
+                //     renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item} onPress = {()=> Linker.openURL(item.link)}>
+                //   {//  <Image style = {styles.itemImage} source = {require('./sample.png')}/> 
+                //   }
+                //     <Text style = {styles.buttonText}>{item.name}</Text>
+                // </TouchableOpacity></View>}
                     />}
               </View>
             </View>
@@ -57,6 +57,13 @@ export default  StoreOptions = ({route, navigation}) => {
         </>
     )
 }
+
+const StoreOption = ({name, link}) => (
+  <View  style = {{paddingBottom: 5}}>
+  {<TouchableOpacity style = {styles.item} onPress= {()=> Linking.openURL("https://" + link)}><Text style = {styles.itemText}>{name}</Text></TouchableOpacity>}
+  </View>
+
+)
 
 const styles = StyleSheet.create({
     itemImage: {
