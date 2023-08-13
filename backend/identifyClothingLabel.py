@@ -92,38 +92,39 @@ def visualize_colors(cluster, centroids):
     colors.pop()
     color = colors.pop()
     return color[1]
+
+def getLabel(fileName):
+     # Load image and convert to a list of pixels
+     image = cv2.imread(fileName)
+     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+     reshape = image.reshape((image.shape[0] * image.shape[1], 3))
+
+     # Find and display most dominant colors
+     cluster = KMeans(n_clusters=5).fit(reshape)
+
+     rgb = visualize_colors(cluster, cluster.cluster_centers_)
+
+     common_color = convert_rgb_to_names(rgb)
+
+     # Read Image
+     img = Image.open(fileName)
+
+     # Remove background
+     img = remove(img)
+
+     # Prepare image for model
+
+     img = edit_image_grayscale(img, fileName)
+
+     img = load_image(fileName)
+
+     # Classify clothing item
+
+     clothingName = predictClass(img)
+
+     clothingLabel = common_color + " " + clothingName
+     
+     return clothingLabel
  
 
-# Load image and convert to a list of pixels
-image = cv2.imread('sample_image.png')
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-reshape = image.reshape((image.shape[0] * image.shape[1], 3))
 
-# Find and display most dominant colors
-cluster = KMeans(n_clusters=5).fit(reshape)
-
-rgb = visualize_colors(cluster, cluster.cluster_centers_)
-
-print(rgb)
-
-common_color = convert_rgb_to_names(rgb)
-
-# Read Image
-img = Image.open('sample_image.png')
-
-# Remove background
-img = remove(img)
-
-# Prepare image for model
-
-img = edit_image_grayscale(img, 'sample_image.png')
-
-img = load_image('sample_image.png')
-
-# Classify clothing item
-
-clothingName = predictClass(img)
-
-clothingLabel = common_color + " " + clothingName
- 
-print(clothingLabel)

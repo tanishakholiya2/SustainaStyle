@@ -10,7 +10,7 @@ const VolunteerOption = ({name, link, showOption}) => (
 
 export default Volunteer = ({navigation}) => {
   useEffect(()=>{
-    fetch('http://192.168.0.88:5000/volunteer',{
+    fetch('http://192.168.2.64:5000/volunteer',{
       'methods':'GET',
     })
     .then(response => response.json())

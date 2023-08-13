@@ -7,7 +7,7 @@ export default function SignUp({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const createUser = () => {
-    fetch(`http://192.168.0.88:5000/signup/${email}/${password}`,{
+    fetch(`http://192.168.2.64:5000/signup/${email}/${password}`,{
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

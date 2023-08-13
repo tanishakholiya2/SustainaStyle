@@ -1,6 +1,19 @@
 import { Text, Image, StyleSheet, FlatList, View, TouchableOpacity} from "react-native";
+import { useState, useEffect } from "react";
 
 export default  StoreOptions = ({navigation}) => {
+
+    useEffect(()=>{
+        fetch('http://192.168.2.64:5000/imageLabel',{
+          'methods':'GET',
+        })
+        .then(response => response.json())
+        .then(response => setLabel(response[0].lbl))
+        .catch(error => console.log(error))
+      },[])
+      const [label, setLabel] = useState("")
+      console.log(label)
+
     return(
         <>
           <View style={styles.container}>
@@ -11,16 +24,16 @@ export default  StoreOptions = ({navigation}) => {
               </View>
 
               <View style = {styles.optionsContainer}>
-                <Text style = {styles.text}>found: orange dress</Text>
+                <Text style = {styles.text}>{label.length == 0 ? "loading results": "found: " + label}</Text>
 
-                <FlatList data = {[
+                {!!(label.length !== 0) && <FlatList data = {[
                     {key: 'CHNGE'},{key: 'HAPPYEARTH'}]}
 
                     renderItem={({item}) => <View style = {styles.itemContainer}><TouchableOpacity style = {styles.item}>
                     <Image style = {styles.itemImage} source = {require('./sample.png')}/>
                     <Text style = {styles.buttonText}>{item.key}</Text>
                 </TouchableOpacity></View>}
-                    />
+                    />}
               </View>
             </View>
 

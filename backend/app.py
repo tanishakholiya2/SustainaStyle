@@ -4,8 +4,12 @@ from database import get_database
 from flask_cors import CORS 
 from werkzeug.utils import secure_filename
 from bson.json_util import dumps
+import identifyClothingLabel
+import os
 
 dbname = get_database()
+
+label = ""
 
 app = Flask(__name__)
 @app.after_request
@@ -45,6 +49,11 @@ def volunteer():
    volunteer = collection_name.find()
    return dumps(list(volunteer))
 
+@app.route('/imageLabel', methods = ['GET'])
+def imageLabel():
+   label = identifyClothingLabel.getLabel('image.jpeg')
+   return dumps(list([{"lbl": label}]))
+
 @app.route('/signup/<email>/<password>', methods=['POST'])
 def signup(email, password):
     if email and password:
@@ -64,7 +73,8 @@ def image():
         bytesOfImage = request.get_data()
         with open('image.jpeg', 'wb') as out:
             out.write(bytesOfImage)
-        return "Image read"
+        
+        return "hey"
 
 # UPLOAD_FOLDER = './images'
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

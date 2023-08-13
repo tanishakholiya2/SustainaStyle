@@ -21,7 +21,7 @@ export default function Login({navigation}) {
         <View style = {styles.outline}>
         <View style = {styles.textContainer}>
         <View style = {styles.headerGroup}>
-              <Text style={styles.header}> LOGIN </Text>
+              <Text style={styles.header}>LOGIN</Text>
             </View>
         <Text style={styles.text}> email </Text>
         <TextInput  
