@@ -6,7 +6,8 @@ export default  StoreOptions = ({route, navigation}) => {
 
   const responseData = route.params.responseData;
   const label = responseData.label;
-  const results = responseData.results
+  results = [{name: "Y2K Zip Up Hoodie Size Small", link:"glass-onion.com/collections/mens-sweatshirts-hoodies/products/y2k-zip-up-hoodie-size-small-ec000934"}, {name: "Men’s Courtside Pullover Hoodie made with Organic Cotton | Pact"}, {name: "Recycled Cotton Oversized Cropped Crew", 
+  link: "tentree.com/products/womens-recycled-cotton-oversized-cropped-crew-graphite?tw_source=google&tw_adid=&tw_campaign=18086217975&gclid=CjwKCAjw_uGmBhBREiwAeOfsd56SRCF1DnUST-rkP3QxPkWCU4AkFms2mlbRoAxHbPJNGrut6B6FPRoCm28QAvD_BwE"}, {name: "Unisex Essential Hoodie | Kotn", link: "kotn.com/products/essential-hoodie?variant=40321033273427&country=US&gclid=CjwKCAjw_uGmBhBREiwAeOfsd9775lZ-GhbXekGXTq3pRk0I1wLJdQUziuVi-S7ga3OP3Iy59nezIBoCq2sQAvD_BwE&colour=heather-grey&size=xxs"}]
   Alert.alert(JSON.stringify(responseData));
 
     return(
