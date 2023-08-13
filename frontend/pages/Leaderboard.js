@@ -1,7 +1,19 @@
-import { Text, ScrollView, Image, StyleSheet, View, TouchableOpacity} from "react-native";
+import { Text, ScrollView, Image, FlatList, StyleSheet, View, TouchableOpacity, Touchable} from "react-native";
+import { useState, useEffect } from "react";
 
 
 export default Leaderboard = ({navigation}) => {
+  useEffect(()=>{
+    fetch('http://192.168.2.64:5000/leaderboard',{
+      'methods':'GET',
+    })
+    .then(response => response.json())
+    .then(response => setLeader(response))
+    .catch(error => console.log(error))
+  },[])
+  const [leader, setLeader] = useState([])
+
+  
     return(
         <>
         <View style={styles.container}>
@@ -13,9 +25,10 @@ export default Leaderboard = ({navigation}) => {
               </View>
 
               <View style = {styles.userDisplay}>
-                <ScrollView>
-                  
-                </ScrollView>
+                <FlatList 
+                    data = {leader}
+                    renderItem={({item}) => <View style = {{paddingBottom: 7}}><TouchableOpacity style = {styles.button}><Text style = {styles.buttonText}>User: {item.email}</Text><Text style = {styles.buttonText}>Points: {item.points}</Text></TouchableOpacity></View> }
+                    />
               </View>
             </View>
 
@@ -55,6 +68,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingTop: 20
+  },
+  userDisplay: {
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    alignContent: 'stretch',
+    position: 'absolute',
+    top: 170,
+    left: 20,
+    right: 20,
+    bottom: 10
   },
   navButtonHolder: {
     padding: 5
@@ -136,7 +159,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     shadowOpacity: 0.3,
     backgroundColor: "#9B6B43",
-    borderRadius: 40,
+    borderRadius: 5,
+    justifyContent: 'space-evenly',
     alignItems: "center",
   },
   buttonText: {

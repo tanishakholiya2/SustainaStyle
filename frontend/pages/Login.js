@@ -5,23 +5,31 @@ import { useState } from 'react';
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const [points, setPoints] = useState(0);
     const signin = () => {
-        fetch('http://127.0.0.1:5000/login',{
-      'methods':'POST',
-      body: JSON.stringify({ "email": email, "password": password })
+        fetch(`http://192.168.2.64:5000/login/${email}/${password}/${points}`,{
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },  
+      body: JSON.stringify({"email": email, "password": password, "points": points})
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log(response); // Log the response object
+      return response.json();
+    })
     .then(response => console.log(response))
-    .catch(error => console.log(error))
-    navigation.navigate("FindAlt")
+    .then(navigation.navigate('FindAlt'))
+    .catch(error => console.log(error));
     }
+
     return(
         <>
         <View style={styles.container}> 
         <View style = {styles.outline}>
         <View style = {styles.textContainer}>
         <View style = {styles.headerGroup}>
-              <Text style={styles.header}> LOGIN </Text>
+              <Text style={styles.header}>LOGIN</Text>
             </View>
         <Text style={styles.text}> email </Text>
         <TextInput  

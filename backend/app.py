@@ -4,8 +4,13 @@ from database import get_database
 from flask_cors import CORS 
 from werkzeug.utils import secure_filename
 from bson.json_util import dumps
-from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
+import identifyClothingLabel
+import os
+from operator import itemgetter
+
 dbname = get_database()
+
+username = {}
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
@@ -30,11 +35,16 @@ def index():
 # def index():
 #     return jsonify([])
 
-@app.route('/login',methods = ['POST', 'GET'])
-def login():
+@app.route('/login/<email>/<password>/<points>',methods = ['POST', 'GET'])
+def login(email, password, points):
    if request.method == 'POST':
-      user = request.form['name']
-      return redirect(url_for('dashboard',name = user))
+      global username
+      username = {"email": email,
+              "password": password, "points": points}
+      collection_name = dbname["users"]
+      collection_name.update_one({"email": username["email"]}, { "$inc": {"points": 20}})
+      # set current user to this user
+      return jsonify({"message": "User logged in successfully"})
    else:
       user = request.args.get('name')
 
@@ -48,13 +58,21 @@ def volunteer():
    volunteer = collection_name.find()
    return dumps(list(volunteer))
 
+@app.route('/imageLabel', methods = ['GET'])
+def imageLabel():
+   label = identifyClothingLabel.getLabel('image.jpeg')
+   return dumps(list([{"lbl": label}]))
+
 @app.route('/signup/<email>/<password>', methods=['POST'])
 def signup(email, password):
     if email and password:
       user = {
          "email": email,
          "password": password,
+         "points": 0
       }
+      global username
+      username = user
       collection_name = dbname["users"]
       collection_name.insert_many([user])
       return jsonify({"message": "User signed up successfully"})
@@ -65,9 +83,13 @@ def signup(email, password):
 def image():
     if(request.method == "POST"):
         bytesOfImage = request.get_data()
+        global username
+        collection_name = dbname["users"]
+        collection_name.update_one({"email": username["email"]}, { "$inc": {"points": 100}})
         with open('image.jpeg', 'wb') as out:
             out.write(bytesOfImage)
-        return "Image read"
+        
+        return "hey"
 
 # UPLOAD_FOLDER = './images'
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -86,9 +108,10 @@ def image():
 #    return response
 
 @app.route('/leaderboard', methods = ['GET'])
-def viewLeaders():
-   print('hi')
-   #return an array of all users in the leaderboard
+def leaderboard():
+   collection_name = dbname["users"] 
+   users = collection_name.find()
+   return dumps(sorted(list((users)), key=itemgetter('points'), reverse=True)) # change key to points when points are added
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

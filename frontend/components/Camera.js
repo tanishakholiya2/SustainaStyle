@@ -14,6 +14,7 @@ export default function Cam({navigation}) {
     const [cameraRollPer, setPer] = useState(null);
     const [camera, setCamera] = useState(null);
     const [image, setImage] = useState('');
+    const [label, setLabel] = useState({label: ""});
 
     useEffect(() => {
         (async () => {
@@ -73,7 +74,7 @@ export default function Cam({navigation}) {
 
       toServer = async (mediaFile) => {
         let schema = "http://";
-        let host = "192.168.0.88";
+        let host = "192.168.2.64";
         let route = "/image";
         let port = "5000";
         let url = "";
@@ -86,7 +87,7 @@ export default function Cam({navigation}) {
           },
           httpMethod: "POST",
           uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
-        }).then(Alert.alert("Successfully uploaded!")).then(navigation.navigate('StoreOptions'));
+        }).then(Alert.alert("Successfully uploaded!")).then(response => console.log(response)).then(navigation.navigate('StoreOptions'));
       };
     
 
